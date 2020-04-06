@@ -1,0 +1,57 @@
+create table artists(
+    id integer not null,
+    name varchar(100) not null,
+    country varchar(100),
+    CONSTRAINT id_pk PRIMARY KEY (id)
+);
+
+create table albums(
+    id integer not null,
+    name varchar(100) not null,
+    artist_id integer not null,
+    release_year integer,
+    CONSTRAINT id_pk2 PRIMARY KEY (id),
+	CONSTRAINT 
+     fk_id FOREIGN KEY (artist_id) 
+           REFERENCES artists(id) ON DELETE CASCADE
+);
+
+CREATE SEQUENCE id_seq
+START WITH 1
+INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER id_artists_trigger
+BEFORE INSERT
+ON artists
+REFERENCING NEW AS NEW
+FOR EACH ROW
+BEGIN
+SELECT id_seq.nextval INTO :NEW.ID FROM dual;
+END;
+/
+
+CREATE SEQUENCE id_seq2
+START WITH 1
+INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER id_albums_trigger
+BEFORE INSERT
+ON albums
+REFERENCING NEW AS NEW
+FOR EACH ROW
+BEGIN
+SELECT id_seq2.nextval INTO :NEW.ID FROM dual;
+END;
+/
+
+
+
+
+
+
+
+
+
+
+
+
