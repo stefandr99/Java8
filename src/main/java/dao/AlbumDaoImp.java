@@ -22,8 +22,7 @@ public class AlbumDaoImp implements AlbumDao {
      *         false - altfel
      * @throws SQLException
      */
-    public boolean create(String name, int artistId, int releaseYear) throws SQLException {
-        Database db = Database.getConnection();
+    public boolean create(String name, int artistId, int releaseYear, Database db) throws SQLException {
         String sql = "insert into albums (name, artist_id, release_year) values (?, ?, ?)";
         PreparedStatement pstmt = db.conn.prepareStatement(sql);
         pstmt.setString(1, name);
@@ -41,8 +40,7 @@ public class AlbumDaoImp implements AlbumDao {
      * @return
      * @throws SQLException
      */
-    public List<Album> findByArtist(int artistId) throws SQLException {
-        Database db = Database.getConnection();
+    public List<Album> findByArtist(int artistId, Database db) throws SQLException {
         String sql = "select * from albums where artist_id = " + artistId;
         Statement stmt = db.conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);

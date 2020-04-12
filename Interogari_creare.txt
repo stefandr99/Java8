@@ -1,3 +1,13 @@
+drop table charts;
+drop table albums;
+drop table artists;
+drop SEQUENCE id_seq; 
+drop SEQUENCE id_seq2;
+drop SEQUENCE id_seq3;
+drop TRIGGER id_artists_trigger;
+drop TRIGGER id_albums_trigger;
+drop TRIGGER id_charts_trigger;
+
 create table artists(
     id integer not null,
     name varchar(100) not null,
@@ -45,12 +55,38 @@ END;
 /
 
 
+create table charts (
+	id integer not null,
+	album_id integer not null,
+	criteria varchar2(50),
+	rank integer, 
+	CONSTRAINT id_pk3 PRIMARY KEY (id),
+	CONSTRAINT 
+		fk_id2 FOREIGN KEY (album_id) 
+			REFERENCES albums(id) ON DELETE CASCADE
+);
+
+CREATE SEQUENCE id_seq3
+START WITH 1
+INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER id_charts_trigger
+BEFORE INSERT
+ON charts
+REFERENCING NEW AS NEW
+FOR EACH ROW
+BEGIN
+SELECT id_seq3.nextval INTO :NEW.ID FROM dual;
+END;
+/
+
+commit;
+	
 
 
 
 
-
-
+ 
 
 
 

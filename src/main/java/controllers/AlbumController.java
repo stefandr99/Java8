@@ -2,6 +2,7 @@ package controllers;
 
 import actors.Album;
 import dao.AlbumDaoImp;
+import database.Database;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ public class AlbumController {
      * @param releaseYear anul in care a fost lansat albumul
      * @throws SQLException
      */
-    public void create(String name, int artistId, int releaseYear) throws SQLException {
-        if(query.create(name, artistId, releaseYear)) {
+    public void create(String name, int artistId, int releaseYear, Database db) throws SQLException {
+        if(query.create(name, artistId, releaseYear, db)) {
             System.out.println("Ati introdus un nou album!");
         } else {
             System.out.println("Ups! A intervenit o problema. Va rugam reveniti!");
@@ -30,9 +31,9 @@ public class AlbumController {
      * @param artistId id-ul artistului al carui albume se cere a fi afisate
      * @throws SQLException
      */
-    public void findByArtist(int artistId) throws SQLException {
+    public void findByArtist(int artistId, Database db) throws SQLException {
         List<Album> albums;
-        albums = query.findByArtist(artistId);
+        albums = query.findByArtist(artistId, db);
         if(albums != null) {
             for (Album album : albums)
                 System.out.println(album);

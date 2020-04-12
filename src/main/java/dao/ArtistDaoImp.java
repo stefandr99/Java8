@@ -21,15 +21,12 @@ public class ArtistDaoImp implements ArtistDao {
      *         false - altfel
      * @throws SQLException
      */
-    public boolean create(String name, String country) throws SQLException {
-        Database db = Database.getConnection();
+    public boolean create(String name, String country, Database db) throws SQLException {
         String sql = "insert into artists (name, country) values (?, ?)";
         PreparedStatement pstmt = db.conn.prepareStatement(sql);
         pstmt.setString(1, name);
         pstmt.setString(2, country);
-        if(pstmt.executeUpdate() == 1)
-            return true;
-        return false;
+        return pstmt.executeUpdate() == 1;
     }
 
     /**
@@ -43,8 +40,7 @@ public class ArtistDaoImp implements ArtistDao {
      *         null altfel
      * @throws SQLException
      */
-    public Artist findByName(String name) throws SQLException {
-        Database db = Database.getConnection();
+    public Artist findByName(String name, Database db) throws SQLException {
         String sql = "select * from artists where name = '" + name + "'";
         Statement stmt = db.conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
